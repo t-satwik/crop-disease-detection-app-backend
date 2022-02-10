@@ -20,7 +20,7 @@ class User(admin.ModelAdmin):
 
 @admin.register(Data)
 class Data(admin.ModelAdmin):
-    list_display = ("time_stamp", "latitude", "longitude", "predicted_class", "probability", "user", "crop_type")
+    list_display = ("time_stamp", "latitude", "longitude", "predicted_class", "probability", "user", "crop_type", "image")
     search_fields = ("user", "crop_type", "predicted_class")
     ordering = ("time_stamp", "user", "crop_type")
 

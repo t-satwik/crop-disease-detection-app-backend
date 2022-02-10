@@ -26,4 +26,3 @@
 2. Run `python manage.py createsuperuser` to create a user to access the admin panel.
 3. Set up the Username and Password
 4. You can log in and change the database values anytime.
-

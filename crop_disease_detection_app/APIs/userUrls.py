@@ -3,8 +3,8 @@ from .userViews import *
 
 urlpatterns = [
    path('SetData/', setData),
-   path('UserLogin/', checkLogin), 
-   path('UserSignUp/', newSignup),
+   path('Login/', checkLogin), 
+   path('SignUp/', newSignup),
    path('GetPastData/', getPastData),
    path('SetVideoFrame/', setVideoFrame),
 ]

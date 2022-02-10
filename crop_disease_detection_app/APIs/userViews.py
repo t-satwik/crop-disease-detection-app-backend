@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 import sys
 import base64
 import hashlib
+import os
 from django.shortcuts import render, redirect
 from django.contrib import messages
 # from django.http import HttpResponse
@@ -18,15 +19,17 @@ def checkLogin(request):
     try:
         data=request.data
         req_user_name=data['user_name']
-        req_password=data['password']
-        user = get_object_or_404(User, user_name=req_user_name)
+        user = User.objects.filter(user_name=req_user_name)
         # print(req_user_name, req_password, user.password)
-        if user is not None:
+        if len(user) > 0:
             if 'password' in data:
-                if(req_password == user.password):
+                req_password=data['password']
+                if(req_password == user[0].password):
                     return Response({'message':"User Verified"}, status=status.HTTP_200_OK)
                 else:
                     return Response({'message':"Wrong Password"}, status=status.HTTP_401_UNAUTHORIZED)
+            else:
+                return Response({'message':"Enter pasword"}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({'message':"User not found"}, status=status.HTTP_404_NOT_FOUND)
     except Exception:
@@ -48,6 +51,18 @@ def newSignup(request):
         print(sys.exc_info())
         return Response({"message":"Bad Request"}, status=status.HTTP_400_BAD_REQUEST )
 
+def clean_str(var):
+    var.replace('/', '-')
+    var.replace(' ', '_')
+    var.replace(':', '-')
+    return var
+def get_image_path(self, folder_path):
+    ts=clean_str(self.time_stamp)
+    un=clean_str(self.user.user_name)
+    ct=clean_str(self.crop_type.crop_name)
+    file_name=un+'_'+ct+"_"+ts+'.png'
+    return folder_path+file_name
+
 @api_view(['POST'])
 def setData(request):
     try:
@@ -59,12 +74,13 @@ def setData(request):
         data_obj.longitude = data['longitude']
         data_obj.predicted_class = data['predicted_class']
         data_obj.probability = data['probability']
-        # data_obj.image = data['image']
-        # user_obj=User.objects.filter(user_name=data['user_name'])
-        # data_obj.user = user_obj[0]
-        # crop_obj=Crop.objects.filter(crop_name=data['crop_name'])
-        # data_obj.crop_type = crop_obj[0]
-        data_obj.save()   
+        
+        user_obj=User.objects.filter(user_name=data['user_name'])
+        data_obj.user = user_obj[0]
+        crop_obj=Crop.objects.filter(crop_name=data['crop_name'])
+        data_obj.crop_type = crop_obj[0]
+        data_obj.image = data['image']
+        data_obj.save()
         return Response({"message":"Data Object Created"}, status=status.HTTP_200_OK )
     except Exception:
         print(sys.exc_info())
