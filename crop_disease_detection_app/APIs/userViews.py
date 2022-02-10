@@ -72,13 +72,26 @@ def setData(request):
         data_obj.time_stamp = data['time_stamp']
         data_obj.latitude = data['latitude']
         data_obj.longitude = data['longitude']
-        data_obj.predicted_class = data['predicted_class']
         data_obj.probability = data['probability']
         
+        if( (data['predicted_class'], data['predicted_class']) in ALLOWED_PREDICTED_CLASSES):
+            pc_obj=PredictedClass.objects.filter(predicted_class=data['predicted_class'])
+            print(pc_obj)
+            data_obj.predicted_class = pc_obj[0]
+        else:
+            return Response({"message":"predicted class not found"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if( (data['crop_name'], data['crop_name']) in ALLOWED_CROP_TYPES):
+            crop_obj=Crop.objects.filter(crop_name=data['crop_name'])
+            data_obj.crop_type = crop_obj[0]
+        else:
+            return Response({"message":"crop not found"}, status=status.HTTP_400_BAD_REQUEST)
+
         user_obj=User.objects.filter(user_name=data['user_name'])
-        data_obj.user = user_obj[0]
-        crop_obj=Crop.objects.filter(crop_name=data['crop_name'])
-        data_obj.crop_type = crop_obj[0]
+        if(len(user_obj)==0):
+            return Response({"message":"user not found"}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            data_obj.user = user_obj[0]
         data_obj.image = data['image']
         data_obj.save()
         return Response({"message":"Data Object Created"}, status=status.HTTP_200_OK )
@@ -96,9 +109,11 @@ def setVideoFrame(request):
         frame_obj.endLatitude = data['endLatitude']
         frame_obj.startLongitude = data['startLongitude']
         frame_obj.endLongitude = data['endLongitude']
-        frame_obj.predicted_class = data['predicted_class']
+        
         frame_obj.probability = data['probability']
 
+        user_obj=PredictedClass.objects.filter(predicted_class=data['predicted_class'])
+        frame_obj.predicted_class = user_obj[0]
         user_obj=User.objects.filter(user_name=data['user_name'])
         frame_obj.user = user_obj[0]
         crop_obj=Crop.objects.filter(crop_name=data['crop_name'])

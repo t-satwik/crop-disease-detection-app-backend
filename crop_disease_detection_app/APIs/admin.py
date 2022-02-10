@@ -36,6 +36,13 @@ class Crop(admin.ModelAdmin):
     search_fields = ("crop_name", "crop_desc")
     ordering = ("crop_name", "crop_desc")
 
+
+@admin.register(PredictedClass)
+class PredictedClass(admin.ModelAdmin):
+    list_display = ("predicted_class", "class_desc", "crop_type")
+    search_fields = ("predicted_class", "class_desc", "crop_type")
+    ordering = ("predicted_class", "class_desc", "crop_type")
+
 @admin.register(Developer)
 class Developer(admin.ModelAdmin):
     list_display = ("dev_name", "email")

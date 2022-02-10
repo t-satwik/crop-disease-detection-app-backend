@@ -15,6 +15,11 @@ class Crop(models.Model):
     # crop_name=models.CharField(blank=False, primary_key=True, max_length=150, default="default_name")
     crop_desc=models.CharField(blank=False, null=False, max_length=300, default="default_desc")
 
+class PredictedClass(models.Model):
+    predicted_class=models.CharField(blank=False, primary_key=True, choices=ALLOWED_PREDICTED_CLASSES, max_length=100)
+    class_desc=models.CharField(blank=False, null=False, max_length=300, default="default_desc")
+    crop_type=models.ForeignKey(Crop, blank=False, on_delete=models.CASCADE, null=True)
+
 def clean_str(var):
     var.replace('/', '-')
     var.replace(' ', '_')
@@ -33,20 +38,19 @@ class Data(models.Model):
     time_stamp = models.TextField(null=False)
     latitude = models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=False)
     longitude = models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=False)
-    predicted_class=models.TextField(blank=False)
+    predicted_class=models.ForeignKey(PredictedClass, blank=False, on_delete=models.CASCADE, null=True)
     probability = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
     user=models.ForeignKey(User, blank=False, on_delete=models.CASCADE, null=True)
     crop_type=models.ForeignKey(Crop, blank=False, on_delete=models.CASCADE, null=True)
     image=models.ImageField(_("IMAGE"), upload_to=upload_to, default='images/default.png')
     
-
 class VideoFrame(models.Model):
     time_stamp = models.TextField(null=False)
     startLatitude = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
     startLongitude = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
     endLatitude = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
     endLongitude = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
-    predicted_class=models.TextField(blank=False)
+    predicted_class=models.ForeignKey(PredictedClass, blank=False, on_delete=models.CASCADE, null=True)
     probability = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
     user=models.ForeignKey(User, blank=False, on_delete=models.CASCADE, null=True)
     crop_type=models.ForeignKey(Crop, blank=False, on_delete=models.CASCADE, null=True)
