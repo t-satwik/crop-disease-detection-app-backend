@@ -98,30 +98,20 @@ def setVideoFrame(request):
         frame_obj.endLongitude = data['endLongitude']
         frame_obj.predicted_class = data['predicted_class']
         frame_obj.probability = data['probability']
-        frame_obj.image = data['image']     
+
         user_obj=User.objects.filter(user_name=data['user_name'])
         frame_obj.user = user_obj[0]
         crop_obj=Crop.objects.filter(crop_name=data['crop_name'])
-        frame_obj.crop_name = crop_obj[0]
+        frame_obj.crop_type = crop_obj[0]
+
+        frame_obj.frame = data['image']
+        frame_obj.save()
         frame_obj.save()
         return Response({"message":"Video Frame Saved"}, status=status.HTTP_200_OK )
 
     except Exception:
         print(sys.exc_info())
         return Response({"message":"Bad Request"}, status=status.HTTP_400_BAD_REQUEST )
-
-
-# @api_view(['POST'])
-# def userImgUpload(request):
-#     try:
-#         data = request.data
-#         data_obj = DATA_wImg()
-#         data_obj.image = data['image']
-#         print(data['image'])
-#         data_obj.save()
-#         return Response({"message":"Image uploaded"}, status=status.HTTP_200_OK )
-#     except:
-#         return Response({"message":"Bad Request - python Exception"}, status=status.HTTP_400_BAD_REQUEST )
 
 @api_view(['POST'])
 def getPastData(request):

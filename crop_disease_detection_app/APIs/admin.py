@@ -22,7 +22,13 @@ class User(admin.ModelAdmin):
 class Data(admin.ModelAdmin):
     list_display = ("time_stamp", "latitude", "longitude", "predicted_class", "probability", "user", "crop_type", "image")
     search_fields = ("user", "crop_type", "predicted_class")
-    ordering = ("time_stamp", "user", "crop_type")
+    ordering = ("user", "crop_type", "time_stamp")
+
+@admin.register(VideoFrame)
+class VideoFrame(admin.ModelAdmin):
+    list_display = ("time_stamp", "startLatitude", "endLatitude", "startLongitude", "endLongitude", "predicted_class", "probability", "user", "crop_type", "frame")
+    search_fields = ("user", "crop_type", "predicted_class")
+    ordering = ("user", "crop_type", "time_stamp")
 
 @admin.register(Crop)
 class Crop(admin.ModelAdmin):

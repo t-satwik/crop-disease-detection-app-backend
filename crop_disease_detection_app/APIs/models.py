@@ -20,7 +20,7 @@ def clean_str(var):
     var.replace(' ', '_')
     var.replace(':', '-')
     return var
-    
+
 def upload_to(instance, filename):
     ext = filename.split('.')[-1]
     ts=clean_str(instance.time_stamp)
@@ -40,19 +40,17 @@ class Data(models.Model):
     image=models.ImageField(_("IMAGE"), upload_to=upload_to, default='images/default.png')
     
 
-# class VideoFrame(models.Model):
-#     time_stamp = models.TextField(null=False)
-#     startLatitude = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
-#     startLongitude = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
-#     endLatitude = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
-#     endLongitude = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
-#     user=models.ForeignKey(User, blank=False, on_delete=models.CASCADE, null=False)
-#     predicted_class=models.TextField(null=False)
-#     crop_type=models.ForeignKey(Crop, blank=False, on_delete=models.CASCADE)
-#     probability = models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=True)
-#     # image_path=upload_to(folder_path='videoframes/')
-#     image_path=models.TextField(blank=False)
-#     image=models.ImageField(_("IMAGE"), upload_to=image_path, default='videoframes/default.png')
+class VideoFrame(models.Model):
+    time_stamp = models.TextField(null=False)
+    startLatitude = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
+    startLongitude = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
+    endLatitude = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
+    endLongitude = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
+    predicted_class=models.TextField(blank=False)
+    probability = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
+    user=models.ForeignKey(User, blank=False, on_delete=models.CASCADE, null=True)
+    crop_type=models.ForeignKey(Crop, blank=False, on_delete=models.CASCADE, null=True)
+    frame=models.ImageField(_("IMAGE"), upload_to=upload_to, default='images/default.png')
     
 class Developer(models.Model):
     dev_name = models.CharField(blank=False, primary_key=True, max_length=100, default="default_name")
