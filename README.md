@@ -1,6 +1,6 @@
-# Maize-Disease-Detection-App
+# Crop-Disease-Detection-App
  
-# BackEnd Instructions
+# Backend Repo
 
 ### Setup
 
