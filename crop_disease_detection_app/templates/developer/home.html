@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Login
+{% endblock title %}
+
+{% block body %}
+
+
+
+<div class="container my-2">
+    <h3 style="text-align:center">Home</h3>
+    <div class="row" style="align-items:center; margin: 0px auto;">
+        <div class="container col-lg-3 border border-primary p-2" style="margin-left: 10px; margin-right: 5px; margin-bottom:20px;">
+            <form method="post">
+                <div class="form-group col-sm-10">
+                    <label for="username">User Name: </label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+        </div>
+        <div class="container col-lg-1"></div>
+        <div class="container col-lg-3 border border-primary p-2" style="margin-left: 5px; margin-right: 5px;  margin-bottom:20px;"> 
+            <form method="post">
+                <div class="form-group col-sm-10">
+                    <label for="crop_type">Crop Type: </label>
+                    <select class="form-select" aria-label="Select Crop" id="crop_type" name="crop_type" required>
+                        <option selected>Select the class</option>
+                        <option value="Maize">Maize</option>
+                        <option value="Cotton">Cotton</option>
+                        <!-- give an option to iterate over the constants ALLOWED_CROP_TYPES -->
+                      </select>
+                </div>
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+        </div>
+        <div class="container col-lg-1"></div>
+        <div class="container col-lg-3 border border-primary p-2" style="margin-left: 5px; margin-right: 10px;margin-bottom:20px;">
+            <form method="post">
+                <div class="form-group col-sm-10">
+                    <label for="predicted_class">Predicted Class: </label>
+                    <select class="form-select" aria-label="Select Class" id="predicted_class" name="predicted_class" required>
+                        <option selected>Select the class</option>
+                        <option value="Northern_Leaf_Blight">Northern_Leaf_Blight</option>
+                        <option value="Cercospora_Gray_leaf_spot">Cercospora_Gray_leaf_spot</option>
+                        <option value="Common_rust_">Common_rust_</option>
+                        <option value="Healthy">Healthy</option>
+                        <option value="Unhealthy">Unhealthy</option>
+                      </select>
+                </div>
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container col-lg-4 border border-primary p-2" style="margin:20px auto;">
+        <form method="post">
+            <div class="form-group col-sm-10">
+                <label for="username">Latitude: </label>
+                <input type="text" class="form-control" id="latitude" name="latitude" required>
+            </div>
+            <div class="form-group col-sm-10">
+                <label for="username">Longitude: </label>
+                <input type="text" class="form-control" id="logintude" name="longitude" required>
+            </div>
+            <div class="form-group col-sm-10">
+                <label for="username">Offset: </label>
+                <input type="text" class="form-control" id="offset" name="offset" required>
+            </div>
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+    </div>
+    
+    
+
+    {% if response_data|length < 1 %}
+    <h3 style="text-align: center;">No Results found</h3>
+    {% else %}
+    <table class="table">
+        <thead class="thead bg-primary" style="color:white;">
+          <tr>
+            <th scope="col">S.no</th>
+            <th scope="col">TimeStamp</th>
+            <th scope="col">Latitude</th>
+            <th scope="col">Longitude</th>
+            <th scope="col">Crop type</th>
+            <th scope="col">Predicted Disease</th>
+            <th scope="col">User Name</th>
+            <th scope="col">Image path</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for d in response_data  %}
+            <tr>
+                <td>{{d.s_no}}</td>
+                <td>{{d.time_stamp}}</td>
+                <td>{{d.latitude}}</td>
+                <td>{{d.longitude}}</td>
+                <td>{{d.crop_type}}</td>
+                <td>{{d.predicted_class}}</td>
+                <td>{{d.user_name}}</td>
+                <td>{{d.image_path}}</td>
+            </tr>
+            {% endfor %}
+         
+        </tbody>
+      </table> 
+    {% endif %}
+    
+      
+
+</div>
+
+{% endblock body %}

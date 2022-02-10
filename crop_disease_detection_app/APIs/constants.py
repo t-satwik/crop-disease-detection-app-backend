@@ -1,0 +1,1 @@
+ALLOWED_CROP_TYPES=[('maize','maize'), ('cotton','cotton'), ('rice', 'rice')]
