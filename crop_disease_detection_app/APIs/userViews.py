@@ -56,6 +56,7 @@ def clean_str(var):
     var.replace(' ', '_')
     var.replace(':', '-')
     return var
+
 def get_image_path(self, folder_path):
     ts=clean_str(self.time_stamp)
     un=clean_str(self.user.user_name)
@@ -73,23 +74,22 @@ def setData(request):
         data_obj.latitude = data['latitude']
         data_obj.longitude = data['longitude']
         data_obj.probability = data['probability']
-        
+
         if( (data['predicted_class'], data['predicted_class']) in ALLOWED_PREDICTED_CLASSES):
             pc_obj=PredictedClass.objects.filter(predicted_class=data['predicted_class'])
             data_obj.predicted_class = pc_obj[0]
         else:
-            return Response({"message":"predicted class not found"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message":"predicted class not found"}, status=status.HTTP_404_NOT_FOUND)
         if( (data['crop_name'], data['crop_name']) in ALLOWED_CROP_TYPES):
             crop_obj=Crop.objects.filter(crop_name=data['crop_name'])
             data_obj.crop_type = crop_obj[0]
         else:
-            return Response({"message":"crop not found"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message":"crop not found"}, status=status.HTTP_404_NOT_FOUND)
         user_obj=User.objects.filter(user_name=data['user_name'])
         if(len(user_obj)==0):
-            return Response({"message":"user not found"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message":"user not found"}, status=status.HTTP_404_NOT_FOUND)
         else:
             data_obj.user = user_obj[0]
-
         data_obj.image = data['image']
         data_obj.save()
         return Response({"message":"Data Object Created"}, status=status.HTTP_200_OK )
@@ -103,10 +103,10 @@ def setVideoFrame(request):
         data = request.data
         frame_obj = VideoFrame()
         frame_obj.time_stamp = data['time_stamp']
-        frame_obj.startLatitude = data['startLatitude']
-        frame_obj.endLatitude = data['endLatitude']
-        frame_obj.startLongitude = data['startLongitude']
-        frame_obj.endLongitude = data['endLongitude']
+        frame_obj.start_latitude = data['start_latitude']
+        frame_obj.end_latitude = data['end_latitude']
+        frame_obj.start_longitude = data['start_longitude']
+        frame_obj.end_longitude = data['end_longitude']
         
         frame_obj.probability = data['probability']
 
@@ -114,15 +114,15 @@ def setVideoFrame(request):
             pc_obj=PredictedClass.objects.filter(predicted_class=data['predicted_class'])
             frame_obj.predicted_class = pc_obj[0]
         else:
-            return Response({"message":"predicted class not found"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message":"predicted class not found"}, status=status.HTTP_404_NOT_FOUND)
         if( (data['crop_name'], data['crop_name']) in ALLOWED_CROP_TYPES):
             crop_obj=Crop.objects.filter(crop_name=data['crop_name'])
             frame_obj.crop_type = crop_obj[0]
         else:
-            return Response({"message":"crop not found"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message":"crop not found"}, status=status.HTTP_404_NOT_FOUND)
         user_obj=User.objects.filter(user_name=data['user_name'])
         if(len(user_obj)==0):
-            return Response({"message":"user not found"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message":"user not found"}, status=status.HTTP_404_NOT_FOUND)
         else:
             frame_obj.user = user_obj[0]
 

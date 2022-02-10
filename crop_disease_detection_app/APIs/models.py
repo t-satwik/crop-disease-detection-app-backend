@@ -21,9 +21,9 @@ class PredictedClass(models.Model):
     crop_type=models.ForeignKey(Crop, blank=False, on_delete=models.CASCADE, null=True)
 
 def clean_str(var):
-    var.replace('/', '-')
-    var.replace(' ', '_')
-    var.replace(':', '-')
+    var=var.replace('/', '-')
+    var=var.replace(' ', '_')
+    var=var.replace(':', '-')
     return var
 
 def upload_to(instance, filename):
@@ -46,10 +46,10 @@ class Data(models.Model):
     
 class VideoFrame(models.Model):
     time_stamp = models.TextField(null=False)
-    startLatitude = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
-    startLongitude = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
-    endLatitude = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
-    endLongitude = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
+    start_latitude = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
+    start_longitude = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
+    end_latitude = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
+    end_longitude = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
     predicted_class=models.ForeignKey(PredictedClass, blank=False, on_delete=models.CASCADE, null=True)
     probability = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
     user=models.ForeignKey(User, blank=False, on_delete=models.CASCADE, null=True)

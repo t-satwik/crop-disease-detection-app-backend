@@ -26,7 +26,7 @@ class Data(admin.ModelAdmin):
 
 @admin.register(VideoFrame)
 class VideoFrame(admin.ModelAdmin):
-    list_display = ("time_stamp", "startLatitude", "endLatitude", "startLongitude", "endLongitude", "predicted_class", "probability", "user", "crop_type", "frame")
+    list_display = ("time_stamp", "start_latitude", "end_latitude", "start_longitude", "end_longitude", "predicted_class", "probability", "user", "crop_type", "frame")
     search_fields = ("user", "crop_type", "predicted_class")
     ordering = ("user", "crop_type", "time_stamp")
 
