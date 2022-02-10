@@ -9,8 +9,8 @@
    `python -m venv venv`
 3. Activate the environment with this command <br>
    `.\venv\Scripts\activate`
-4. Install the dependencies <br>
-   `pip install -r requirements.txt (Django, Django-Rest-FrameWork)`
+4. Install the dependencies (like Django, Django-Rest-FrameWork)<br>
+   `pip install -r requirements.txt`
 
 ### Running the Application
 
