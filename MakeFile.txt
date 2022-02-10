@@ -5,7 +5,7 @@ setup:
 run:
 	.\venv\Scripts\activate
 	python manage.py runserver 192.168.1.8:8000
-	python manage.py runserver 192.168.137.1:8000
+	python manage.py runserver 192.168.139.229:8000
 migrate:
 	python manage.py makemigrations
 	python manage.py migrate
