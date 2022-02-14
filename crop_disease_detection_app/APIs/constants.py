@@ -6,3 +6,9 @@ ALLOWED_PREDICTED_CLASSES=[
         ('healthy', 'healthy'),
         ('nutrient_deficient', 'nutrient_deficient')
         ]
+ALLOWED_SENSOR_TYPES=[
+        ('temperature','temperature'), 
+        ('humidity','humidity'), 
+        ('pressure', 'pressure'),
+        ('luminosity', 'luminosity'),
+        ]

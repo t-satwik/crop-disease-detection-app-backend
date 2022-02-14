@@ -136,6 +136,55 @@ def setVideoFrame(request):
         return Response({"message":"Bad Request"}, status=status.HTTP_400_BAD_REQUEST )
 
 @api_view(['POST'])
+def setSensorData(request):
+    try:
+        data = request.data
+        sensor_data_obj = SensorValue()
+        sensor_obj=Sensor()
+        if( (data['sensor_type'], data['sensor_type']) in ALLOWED_SENSOR_TYPES):
+            if(len(user_obj)==0):
+                return Response({"message":"user not found"}, status=status.HTTP_404_NOT_FOUND)
+            else:
+                sensor_data_obj.value = data['time_stamp']
+                sensor_data_obj.latitude = data['latitude']
+                sensor_data_obj.longitude = data['longitude']
+                sensor_data_obj.time_stamp = data['time_stamp']
+                latitude=data['latitude']
+                longitude=data['longitude']
+                offset=0.5
+                sensors_in_offset=Sensor.objects.filter(latitude__lte=latitude+offset, latitude__gte=latitude-offset, longitude__lte=longitude+offset, longitude__gte=longitude-offset)
+                sensors_type=Sensor.objects.filter(sensor_type=data['sensor_type'])
+                flag=0
+                for sensor in sensors_in_offset:
+                    if sensor in sensors_type:
+                        #existing sesnor found
+                        flag=1
+                        sensor_obj=sensor
+                        sensor_data_obj.sensor = sensor_obj
+                        sensor_data_obj.save()  #
+                        return Response({"message":"Value Added to the sensor"}, status=status.HTTP_200_OK)
+                if flag==0:
+                        #new_sensor should be added
+                        sensor_obj.sensor_type = data['sensor_type']
+                        sensor_obj.longitude=data['longitude']
+                        sensor_obj.latitude=data['latitude']
+                        user_obj=User.objects.filter(user_name=data['user_name'])
+                        sensor_obj.user = user_obj[0] 
+                        sensor_data_obj.sensor = sensor_obj 
+                        sensor_obj.save()  #save the sensor
+                        sensor_data_obj.save() #save the sensor data
+                        return Response({"message":"New sensor added and appended value"}, status=status.HTTP_200_OK)            
+        else:
+            return Response({"message":"sensor type not found"}, status=status.HTTP_404_NOT_FOUND)
+            
+    except Exception:
+        print(sys.exc_info())
+        return Response({"message":"Bad Request"}, status=status.HTTP_400_BAD_REQUEST )
+
+
+
+
+@api_view(['POST'])
 def getPastData(request):
     #update it to manage tokens, and also send only few frames per request, send multiple requests later
     try:

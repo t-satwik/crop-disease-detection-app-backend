@@ -55,7 +55,20 @@ class VideoFrame(models.Model):
     user=models.ForeignKey(User, blank=False, on_delete=models.CASCADE, null=True)
     crop_type=models.ForeignKey(Crop, blank=False, on_delete=models.CASCADE, null=True)
     frame=models.ImageField(_("IMAGE"), upload_to=upload_to, default='images/default.png')
-    
+
+class Sensor(models.Model):
+    sensor_type = models.CharField(max_length=100, choices=ALLOWED_SENSOR_TYPES, default="temperature")
+    latitude = models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=True)
+    longitude = models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=True)
+    user= models.ForeignKey(User, on_delete=models.CASCADE)
+
+class SensorValue(models.Model):
+    value=models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=True)
+    sensor=models.ForeignKey(Sensor, on_delete=models.CASCADE)
+    latitude = models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=True)
+    longitude = models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=True)
+    time_stamp = models.TextField(null=False)
+
 class Developer(models.Model):
     dev_name = models.CharField(blank=False, primary_key=True, max_length=100, default="default_name")
     password = models.CharField(blank=True, null=True, max_length=150)

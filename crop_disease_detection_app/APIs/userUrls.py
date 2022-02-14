@@ -7,4 +7,5 @@ urlpatterns = [
    path('SignUp/', newSignup),
    path('GetPastData/', getPastData),
    path('SetVideoFrame/', setVideoFrame),
+   path('SetSensorData/', setSensorData),
 ]
