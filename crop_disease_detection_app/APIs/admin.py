@@ -49,3 +49,15 @@ class Developer(admin.ModelAdmin):
     search_fields = ("dev_name", "email")
     ordering = ("dev_name", "email")
 
+@admin.register(Sensor)
+class Sensor(admin.ModelAdmin):
+    list_display = ("sensor_type", "latitude", "longitude", "user")
+    search_fields = ("sensor_type", "latitude", "longitude")
+    ordering = ("sensor_type", "latitude")
+
+@admin.register(SensorValue)
+class SensorValue(admin.ModelAdmin):
+    list_display = ("value", "sensor", "latitude", "longitude", "time_stamp", "sensor_type")
+    search_fields = ("value", "sensor")
+    ordering = ("sensor_type", "sensor")
+

@@ -68,6 +68,7 @@ class SensorValue(models.Model):
     latitude = models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=True)
     longitude = models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=True)
     time_stamp = models.TextField(null=False)
+    sensor_type=models.CharField(max_length=100, choices=ALLOWED_SENSOR_TYPES, default="temperature")
 
 class Developer(models.Model):
     dev_name = models.CharField(blank=False, primary_key=True, max_length=100, default="default_name")
