@@ -1,4 +1,5 @@
 
+from django.http import FileResponse
 from rest_framework import status
 from .models import *
 from .serializers import *
@@ -187,27 +188,84 @@ def setSensorData(request):
         print(sys.exc_info())
         return Response({"message":"Bad Request"}, status=status.HTTP_400_BAD_REQUEST )
 
-
-
-
 @api_view(['POST'])
 def getPastData(request):
     #update it to manage tokens, and also send only few frames per request, send multiple requests later
     try:
         data = request.data
         user_name = data['user_name']
-        user_data=Data.objects.filter(user_name__exact=user_name)
-        print(user_data)
-        Response_dict={"message":"Data Fetch Successful", "data_count":str(len(user_data))}
-        for i in range(len(user_data)):
+        user_data=Data.objects.filter(user__exact=user_name)
+        # print(user_name)
+        num=1
+        Response_dict={"message":"Data Fetch Successful", "data_count":str(num)}
+        # print("0")
+        for i in range(int(data['starting_index']), int(data['starting_index'])+num):
+            # print("1")
+            if(i>=len(user_data)):
+                break
             Response_dict["data"+str(i)]={}
             Response_dict["data"+str(i)]["time_stamp"]=user_data[i].time_stamp
             Response_dict["data"+str(i)]["latitude"]=user_data[i].latitude
             Response_dict["data"+str(i)]["longitude"]=user_data[i].longitude
-            Response_dict["data"+str(i)]["encoded_image"]=user_data[i].encoded_image
-            Response_dict["data"+str(i)]["predicted_class"]=user_data[i].predicted_class
-            Response_dict["data"+str(i)]["crop_type"]=user_data[i].crop_type
-            # return HttpResponse(user_data[i], content_type="image/png") Use this to send images maybe seperately
+            Response_dict["data"+str(i)]["predicted_class"]=user_data[i].predicted_class.predicted_class
+            Response_dict["data"+str(i)]["probability"]=user_data[i].probability
+            Response_dict["data"+str(i)]["user"]=user_data[i].user.user_name
+            Response_dict["data"+str(i)]["crop_type"]=user_data[i].crop_type.crop_name
+            # f = open(user_data[i].image, "rb")
+            Response_dict["data"+str(i)]["encoded_image"]=base64.b64encode(user_data[i].image.read())
+            # filename=user_data[i].image.name
+            # img = open(filename, 'rb')
+            # print(user_data[i].image)
+            # Response_dict["data"+str(i)]["image"]=user_data[i].image
+        return Response(Response_dict, status=status.HTTP_200_OK )
+    except Exception:
+        print(sys.exc_info())
+        return Response({"message":"Bad Request - python Exception"}, status=status.HTTP_400_BAD_REQUEST )
+
+@api_view(['POST'])
+def getSensorsData(request):
+    #update it to manage tokens, and also send only few frames per request, send multiple requests later
+    try:
+        data = request.data
+        user_name = data['user_name']
+        user_data=SensorValue.objects.filter(user__exact=user_name)
+        # print(user_name)
+        num=2
+        Response_dict={"message":"Sensors Data Fetch Successful index:", "total_count":str(len(user_data))}
+        # print("0")
+        for i in range(len(user_data)):
+            # print("1")
+            Response_dict["sensor"+str(i)]={}
+            Response_dict["sensor"+str(i)]["sensor_type"]=user_data[i].sensor_type
+            Response_dict["sensor"+str(i)]["latitude"]=user_data[i].latitude
+            Response_dict["sensor"+str(i)]["longitude"]=user_data[i].longitude
+            Response_dict["sensor"+str(i)]["user"]=user_data[i].user.user_name
+        return Response(Response_dict, status=status.HTTP_200_OK )
+    except Exception:
+        print(sys.exc_info())
+        return Response({"message":"Bad Request - python Exception"}, status=status.HTTP_400_BAD_REQUEST )
+
+@api_view(['POST'])
+def getSensorValuesData(request):
+    #update it to manage tokens, and also send only few frames per request, send multiple requests later
+    try:
+        data = request.data
+        user_name = data['user_name']
+        user_sensors=Sensor.objects.filter(user__exact=user_name)
+        user_data=[]
+        for sensor in user_sensors:
+            user_data.extend(SensorValue.objects.filter(sensor__exact=sensor))
+        # print(user_name)
+        Response_dict={"message":"Data Values Fetch Successful", "total_count":str(len(user_data))}
+        # print("0")
+        for i in range(len(user_data)):
+            # print("1")
+            Response_dict["value"+str(i)]={}
+            Response_dict["value"+str(i)]["value"]=user_data[i].value
+            Response_dict["value"+str(i)]["latitude"]=user_data[i].latitude
+            Response_dict["value"+str(i)]["longitude"]=user_data[i].longitude
+            Response_dict["value"+str(i)]["time_stamp"]=user_data[i].time_stamp
+            Response_dict["value"+str(i)]["sensor_type"]=user_data[i].sensor_type            
         return Response(Response_dict, status=status.HTTP_200_OK )
     except Exception:
         print(sys.exc_info())

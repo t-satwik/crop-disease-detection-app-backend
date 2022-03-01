@@ -4,8 +4,10 @@ setup:
 	pip install -r requirements.txt
 run:
 	.\venv\Scripts\activate
+	cd crop_disease_detection_app
 	python manage.py runserver 192.168.1.8:8000
 	python manage.py runserver 192.168.139.229:8000
+	python manage.py runserver 192.168.1.7:8000
 migrate:
 	python manage.py makemigrations
 	python manage.py migrate

@@ -6,6 +6,7 @@ urlpatterns = [
    path('Login/', checkLogin), 
    path('SignUp/', newSignup),
    path('GetPastData/', getPastData),
+   path('GetSensorValueData/', getSensorValuesData),
    path('SetVideoFrame/', setVideoFrame),
    path('SetSensorData/', setSensorData),
 ]
