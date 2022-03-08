@@ -42,6 +42,8 @@ class Data(models.Model):
     probability = models.DecimalField(max_digits=22, decimal_places=16, blank=False, null=False)
     user=models.ForeignKey(User, blank=False, on_delete=models.CASCADE, null=True)
     crop_type=models.ForeignKey(Crop, blank=False, on_delete=models.CASCADE, null=True)
+    file_name=models.TextField(blank=True, null=False, default="a_maize_11-02-2022_01-33-15.png")
+    # http://192.168.1.10:8000/media/images/default_name_default_desc_default_time_stamp.png
     image=models.ImageField(_("IMAGE"), upload_to=upload_to, default='images/default.png')
     
 class VideoFrame(models.Model):

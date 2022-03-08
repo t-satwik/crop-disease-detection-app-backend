@@ -58,12 +58,12 @@ def clean_str(var):
     var.replace(':', '-')
     return var
 
-def get_image_path(self, folder_path):
-    ts=clean_str(self.time_stamp)
-    un=clean_str(self.user.user_name)
-    ct=clean_str(self.crop_type.crop_name)
+def get_image_path(obj):
+    ts=clean_str(obj.time_stamp)
+    un=clean_str(obj.user.user_name)
+    ct=clean_str(obj.crop_type.crop_name)
     file_name=un+'_'+ct+"_"+ts+'.png'
-    return folder_path+file_name
+    return file_name
 
 @api_view(['POST'])
 def setData(request):
@@ -75,7 +75,7 @@ def setData(request):
         data_obj.latitude = data['latitude']
         data_obj.longitude = data['longitude']
         data_obj.probability = data['probability']
-
+        
         if( (data['predicted_class'], data['predicted_class']) in ALLOWED_PREDICTED_CLASSES):
             pc_obj=PredictedClass.objects.filter(predicted_class=data['predicted_class'])
             data_obj.predicted_class = pc_obj[0]
@@ -92,6 +92,7 @@ def setData(request):
         else:
             data_obj.user = user_obj[0]
         data_obj.image = data['image']
+        data_obj.file_name=get_image_path(data_obj)
         data_obj.save()
         return Response({"message":"Data Object Created"}, status=status.HTTP_200_OK )
     except Exception:
@@ -213,6 +214,7 @@ def getPastData(request):
             Response_dict["data"+str(i)]["crop_type"]=user_data[i].crop_type.crop_name
             # f = open(user_data[i].image, "rb")
             Response_dict["data"+str(i)]["encoded_image"]=base64.b64encode(user_data[i].image.read())
+            Response_dict["data"+str(i)]["file_name"]=user_data[i].file_name
             # filename=user_data[i].image.name
             # img = open(filename, 'rb')
             # print(user_data[i].image)
