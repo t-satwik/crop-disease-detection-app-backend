@@ -272,3 +272,47 @@ def getSensorValuesData(request):
     except Exception:
         print(sys.exc_info())
         return Response({"message":"Bad Request - python Exception"}, status=status.HTTP_400_BAD_REQUEST )
+
+@api_view(['POST'])
+def getClimateData(request):
+    try:
+        data = request.data
+        latitude = data['latitude']
+        longitude = data['longitude']
+        user_name = data['user_name']
+        data_present=False
+        print(len(Sensor.objects.filter(user__exact=user_name, sensor_type__exact="phosphorus")))
+        if(len(Sensor.objects.filter(user__exact=user_name, sensor_type__exact="nitrogen"))>0) and \
+          (len(Sensor.objects.filter(user__exact=user_name, sensor_type__exact="phosphorus"))>0) and \
+          (len(Sensor.objects.filter(user__exact=user_name, sensor_type__exact="potassium"))>0) and \
+          (len(Sensor.objects.filter(user__exact=user_name, sensor_type__exact="pH"))>0):
+            data_present=True
+        if(data_present):
+            Response_dict={"message":"Climate Values Fetch Successful", "full_data":1}
+            for value_type in ['nitrogen', 'phosphorus', 'potassium', 'pH']: #Computing the average for each
+                sensors=Sensor.objects.filter(user__exact=user_name, sensor_type__exact=value_type)
+                value_sum=0
+                count=0
+                for sensor in sensors:
+                    SensorValue_data=SensorValue.objects.filter(sensor__exact=sensor)
+                    for v in range(len(SensorValue_data)):
+                        value_sum+=SensorValue_data[v].value
+                        count+=1
+                if(count==0):
+                    Response_dict["message"]="Bad Request - No Data Present"
+                    count=1
+                value_avg=value_sum/count
+                Response_dict[value_type]=value_avg                       
+        else:
+            Response_dict={"message":"Climate Values Fetch Successful", "full_data":0}
+        #TODO: Fetch Climate data using APIS and assign them to avg_temp, avg_humidity, avg_rainfall
+        avg_temp=0
+        avg_humidity=0
+        avg_rainfall=0
+        Response_dict["temperature"]=avg_temp
+        Response_dict["humidity"]=avg_humidity
+        Response_dict["rainfall"]=avg_rainfall      
+        return Response(Response_dict, status=status.HTTP_200_OK )
+    except Exception:
+        print(sys.exc_info())
+        return Response({"message":"Bad Request - python Exception"}, status=status.HTTP_400_BAD_REQUEST )

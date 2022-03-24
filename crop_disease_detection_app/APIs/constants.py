@@ -11,4 +11,8 @@ ALLOWED_SENSOR_TYPES=[
         ('humidity','humidity'), 
         ('pressure', 'pressure'),
         ('luminosity', 'luminosity'),
+        ('nitrogen', 'nitrogen'),
+        ('phosphorus', 'phosphorus'),
+        ('potassium', 'potassium'),
+        ('pH', 'pH')
         ]

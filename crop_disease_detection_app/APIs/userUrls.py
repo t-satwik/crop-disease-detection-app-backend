@@ -9,4 +9,5 @@ urlpatterns = [
    path('GetSensorValueData/', getSensorValuesData),
    path('SetVideoFrame/', setVideoFrame),
    path('SetSensorData/', setSensorData),
+   path('GetClimateData/', getClimateData),   
 ]
