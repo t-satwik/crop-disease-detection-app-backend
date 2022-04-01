@@ -340,7 +340,7 @@ def getCropRecommendation(request):
                 avg_values[value_type]=float(value_avg)
             # print([avg_values['nitrogen'], avg_values['phosphorus'], avg_values['potassium'], avg_values['temperature'],avg_values['humidity'], avg_values['pH'], avg_rainfall])
             predicted_crop=recommend_crop([avg_values['nitrogen'], avg_values['phosphorus'], avg_values['potassium'], avg_values['temperature'],avg_values['humidity'], avg_values['pH'], avg_rainfall])
-            Response_dict["predicted_crop"]=predicted_crop
+            Response_dict["predicted_crop"]=predicted_crop[0]
         else:
             Response_dict={"message":"Data not present", "full_data":0}
         return Response(Response_dict, status=status.HTTP_200_OK )
@@ -364,8 +364,9 @@ def getCropRecommendationWithGivenData(request):
         temperature = float(data['temperature'])
         humidity = float(data['humidity'])
         predicted_crop=recommend_crop([nitrogen, phosphorus, potassium, temperature, humidity, pH, avg_rainfall])
-        Response_dict={"message":"Data given", "full_data":1}
-        Response_dict["predicted_crop"]=predicted_crop
+        Response_dict={"message":"Crop recommended successfully", "full_data":1}
+        print(predicted_crop, type(predicted_crop))
+        Response_dict["predicted_crop"]=predicted_crop[0]
         return Response(Response_dict, status=status.HTTP_200_OK )
     except Exception:
         print(sys.exc_info())
