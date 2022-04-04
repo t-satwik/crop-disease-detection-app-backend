@@ -216,7 +216,7 @@ def getPastData(request):
             Response_dict["data"+str(i)]["user"]=user_data[i].user.user_name
             Response_dict["data"+str(i)]["crop_type"]=user_data[i].crop_type.crop_name
             # f = open(user_data[i].image, "rb")
-            Response_dict["data"+str(i)]["encoded_image"]=base64.b64encode(user_data[i].image.read())
+            # Response_dict["data"+str(i)]["encoded_image"]=base64.b64encode(user_data[i].image.read())
             Response_dict["data"+str(i)]["file_name"]=user_data[i].file_name
             # filename=user_data[i].image.name
             # img = open(filename, 'rb')
