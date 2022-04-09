@@ -56,16 +56,16 @@ def newSignup(request):
         return Response({"message":"Bad Request"}, status=status.HTTP_400_BAD_REQUEST )
 
 def clean_str(var):
-    var.replace('/', '-')
-    var.replace(' ', '_')
-    var.replace(':', '-')
+    var=var.replace('/', '-')
+    var=var.replace(' ', '_')
+    var=var.replace(':', '-')
     return var
 
 def get_image_path(obj):
     ts=clean_str(obj.time_stamp)
     un=clean_str(obj.user.user_name)
     ct=clean_str(obj.crop_type.crop_name)
-    file_name=un+'_'+ct+"_"+ts+'.png'
+    file_name=un+"_"+ct+"_"+ts+".png"
     return file_name
 
 @api_view(['POST'])
@@ -83,11 +83,13 @@ def setData(request):
             pc_obj=PredictedClass.objects.filter(predicted_class=data['predicted_class'])
             data_obj.predicted_class = pc_obj[0]
         else:
+            print(data['predicted_class'])
             return Response({"message":"predicted class not found"}, status=status.HTTP_404_NOT_FOUND)
         if( (data['crop_name'], data['crop_name']) in ALLOWED_CROP_TYPES):
             crop_obj=Crop.objects.filter(crop_name=data['crop_name'])
             data_obj.crop_type = crop_obj[0]
         else:
+            print(data['crop_name'])
             return Response({"message":"crop not found"}, status=status.HTTP_404_NOT_FOUND)
         user_obj=User.objects.filter(user_name=data['user_name'])
         if(len(user_obj)==0):
@@ -95,7 +97,9 @@ def setData(request):
         else:
             data_obj.user = user_obj[0]
         data_obj.image = data['image']
-        data_obj.file_name=get_image_path(data_obj)
+        file_name=get_image_path(data_obj)
+        # print(file_name)
+        data_obj.file_name=file_name
         data_obj.save()
         return Response({"message":"Data Object Created"}, status=status.HTTP_200_OK )
     except Exception:
@@ -112,33 +116,34 @@ def setVideoFrame(request):
         frame_obj.end_latitude = data['end_latitude']
         frame_obj.start_longitude = data['start_longitude']
         frame_obj.end_longitude = data['end_longitude']
-        
         frame_obj.probability = data['probability']
 
         if( (data['predicted_class'], data['predicted_class']) in ALLOWED_PREDICTED_CLASSES):
             pc_obj=PredictedClass.objects.filter(predicted_class=data['predicted_class'])
             frame_obj.predicted_class = pc_obj[0]
         else:
+            # print(data['predicted_class'])
             return Response({"message":"predicted class not found"}, status=status.HTTP_404_NOT_FOUND)
         if( (data['crop_name'], data['crop_name']) in ALLOWED_CROP_TYPES):
             crop_obj=Crop.objects.filter(crop_name=data['crop_name'])
             frame_obj.crop_type = crop_obj[0]
         else:
+            print(data['crop_name'])
             return Response({"message":"crop not found"}, status=status.HTTP_404_NOT_FOUND)
         user_obj=User.objects.filter(user_name=data['user_name'])
         if(len(user_obj)==0):
             return Response({"message":"user not found"}, status=status.HTTP_404_NOT_FOUND)
         else:
             frame_obj.user = user_obj[0]
-
-        frame_obj.frame = data['image']
+        frame_obj.image = data['image']
+        file_name=get_image_path(frame_obj)
+        # print(file_name)
+        frame_obj.file_name=file_name
         frame_obj.save()
-        frame_obj.save()
-        return Response({"message":"Video Frame Saved"}, status=status.HTTP_200_OK )
-
+        return Response({"message":"Frame Object Created"}, status=status.HTTP_200_OK )
     except Exception:
         print(sys.exc_info())
-        return Response({"message":"Bad Request"}, status=status.HTTP_400_BAD_REQUEST )
+        return Response({"message":"Bad Request - python Exception"}, status=status.HTTP_400_BAD_REQUEST )
 
 @api_view(['POST'])
 def setSensorData(request):
@@ -199,8 +204,8 @@ def getPastData(request):
         data = request.data
         user_name = data['user_name']
         user_data=Data.objects.filter(user__exact=user_name)
-        # print(user_name)
-        num=1
+        print(len(user_data))
+        num=3
         Response_dict={"message":"Data Fetch Successful", "data_count":str(num)}
         # print("0")
         for i in range(int(data['starting_index']), int(data['starting_index'])+num):
@@ -215,9 +220,9 @@ def getPastData(request):
             Response_dict["data"+str(i)]["probability"]=user_data[i].probability
             Response_dict["data"+str(i)]["user"]=user_data[i].user.user_name
             Response_dict["data"+str(i)]["crop_type"]=user_data[i].crop_type.crop_name
-            # f = open(user_data[i].image, "rb")
             # Response_dict["data"+str(i)]["encoded_image"]=base64.b64encode(user_data[i].image.read())
             Response_dict["data"+str(i)]["file_name"]=user_data[i].file_name
+            print(user_data[i].file_name)
             # filename=user_data[i].image.name
             # img = open(filename, 'rb')
             # print(user_data[i].image)

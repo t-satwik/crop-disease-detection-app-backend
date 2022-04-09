@@ -34,9 +34,12 @@ ALLOWED_HOSTS = [
     '0.0.0.0',
     '127.0.0.1',
     '192.168.1.12',
+    '192.168.1.2',
     '192.168.29.235',
+    '10.250.65.170',
+    '192.168.29.235',
+    'farmbook.iitdh.ac.in',
 ]
-
 
 # Application definition
 
@@ -130,6 +133,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
