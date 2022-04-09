@@ -79,8 +79,8 @@ Send a `POST` request to `apis/login/`<br>
 
 ```json
 {
-"user_name":"user1"
-"password":"123"
+ "user_name":"user1"
+ "password":"123"
 }
 ```
 
@@ -124,9 +124,9 @@ Send a `POST` request to `apis/SignUp/`<br>
 
 ```json
 {
-"user_name":"user1",
-"email":"user1@farmbook.com",
-"password":"123",
+ "user_name":"user1",
+ "email":"user1@farmbook.com",
+ "password":"123"
 }
 ```
 
@@ -153,7 +153,7 @@ The possible responses for this api request are as follows
 ---
 ## `apis/SetData/`
 
-This Api is used to validate the credentials entered by a user.
+This Api is used to create a new data object corresponding to the location data and the image.
 
 ### How to Use?
 
@@ -165,14 +165,14 @@ Send a `POST` request to `apis/SetData/`<br>
 
 ```json
 {
-"time_stamp":"08/04/2022 16:28:24",
-"latitude":"0.0",
-"longitude":"0.0",
-"probability":"0.95",
-"predicted_class":"healthy",
-"crop_name":"maize",
-"user_name":"user1",
-"image":"image file",
+ "time_stamp":"08/04/2022 16:28:24",
+ "latitude":"0.0",
+ "longitude":"0.0",
+ "probability":"0.95",
+ "predicted_class":"healthy",
+ "crop_name":"maize",
+ "user_name":"user1",
+ "image":"image file"
 }
 ```
 
@@ -202,7 +202,7 @@ The possible responses for this api request are as follows
 ---
 ## `apis/GetPastData/`
 
-This Api is used to get the data points and the images associated with a user.
+This Api is used to get the data and the images associated with a user.
 
 ### How to Use?
 
@@ -215,8 +215,8 @@ Send a `POST` request to `apis/GetPastData/`<br>
 
 ```json
 {
-"user_name":"user1",
-"starting_index":"0"
+ "user_name":"user1",
+ "starting_index":"0"
 }
 ```
 
@@ -267,7 +267,7 @@ Send a `POST` request to `apis/GetSensorValueData/`<br>
 
 ```json
 {
-"user_name":"user1"
+ "user_name":"user1"
 }
 ```
 
