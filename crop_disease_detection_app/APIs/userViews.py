@@ -33,7 +33,7 @@ def checkLogin(request):
                 else:
                     return Response({'message':"Wrong Password"}, status=status.HTTP_401_UNAUTHORIZED)
             else:
-                return Response({'message':"Enter pasword"}, status=status.HTTP_401_UNAUTHORIZED)
+                return Response({'message':"Enter Pasword"}, status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({'message':"User not found"}, status=status.HTTP_404_NOT_FOUND)
     except Exception:
@@ -167,7 +167,7 @@ def setSensorData(request):
                 latitude=float(data['latitude'])
                 longitude=float(data['longitude'])
                 sensor_data_obj.sensor_type=data['sensor_type']
-                offset=0.5
+                offset=0.001
                 sensors_in_offset=Sensor.objects.filter(latitude__lte=latitude+offset, latitude__gte=latitude-offset, longitude__lte=longitude+offset, longitude__gte=longitude-offset)
                 sensors_type=Sensor.objects.filter(sensor_type=data['sensor_type'])
                 flag=0
@@ -241,7 +241,7 @@ def getSensorsData(request):
         user_data=SensorValue.objects.filter(user__exact=user_name)
         # print(user_name)
         num=2
-        Response_dict={"message":"Sensors Data Fetch Successful index:", "total_count":str(len(user_data))}
+        Response_dict={"message":"Sensors Data Fetch Successful", "total_count":str(len(user_data))}
         # print("0")
         for i in range(len(user_data)):
             # print("1")
