@@ -79,8 +79,8 @@ Send a `POST` request to `apis/login/`<br>
 
 ```json
 {
- "user_name":"user1"
- "password":"123"
+  "user_name":"user1"
+  "password":"123"
 }
 ```
 
@@ -124,9 +124,9 @@ Send a `POST` request to `apis/SignUp/`<br>
 
 ```json
 {
- "user_name":"user1",
- "email":"user1@farmbook.com",
- "password":"123"
+  "user_name":"user1",
+  "email":"user1@farmbook.com",
+  "password":"123"
 }
 ```
 
@@ -165,14 +165,14 @@ Send a `POST` request to `apis/SetData/`<br>
 
 ```json
 {
- "time_stamp":"08/04/2022 16:28:24",
- "latitude":"0.0",
- "longitude":"0.0",
- "probability":"0.95",
- "predicted_class":"healthy",
- "crop_name":"maize",
- "user_name":"user1",
- "image":"image file"
+  "time_stamp":"08/04/2022 16:28:24",
+  "latitude":"0.0",
+  "longitude":"0.0",
+  "probability":"0.95",
+  "predicted_class":"healthy",
+  "crop_name":"maize",
+  "user_name":"user1",
+  "image":"image file"
 }
 ```
 
@@ -215,8 +215,8 @@ Send a `POST` request to `apis/GetPastData/`<br>
 
 ```json
 {
- "user_name":"user1",
- "starting_index":"0"
+  "user_name":"user1",
+  "starting_index":"0"
 }
 ```
 
@@ -290,7 +290,7 @@ The possible responses for this api request are as follows
 
 | Status Codes    | Possible Messages        |
 | --------------- | ------------------------ |
-| 200 OK          | `User Verified`          |
+| 200 OK          | `Sensors Data Fetch Successful`          |
 | 400 NOT FOUND| `Bad Request - python Exception`          | 
 
 
@@ -312,16 +312,16 @@ Send a `POST` request to `apis/SetVideoFrame/`<br>
 
 ```json
 {
-"time_stamp":"08/04/2022 16:28:24",
-"start_latitude":"0.0",
-"end_latitude":"0.0",
-"start_latitude":"0.0",
-"end_longitude":"0.0",
-"probability":"0.95",
-"predicted_class":"healthy",
-"crop_name":"maize",
-"user_name":"user1",
-"image":"image file",
+  "time_stamp":"08/04/2022 16:28:24",
+  "start_latitude":"0.0",
+  "end_latitude":"0.0",
+  "start_latitude":"0.0",
+  "end_longitude":"0.0",
+  "probability":"0.95",
+  "predicted_class":"healthy",
+  "crop_name":"maize",
+  "user_name":"user1",
+  "image":"image file",
 }
 ```
 
@@ -359,11 +359,11 @@ Send a `POST` request to `apis/setSensorData/`<br>
 
 ```json
 {
-"time_stamp":"08/04/2022 16:28:24",
-"latitude":"0.0",
-"longitude":"0.0",
-"sensor_type":"humidity",
-"value":"100.00"
+  "time_stamp":"08/04/2022 16:28:24",
+  "latitude":"0.0",
+  "longitude":"0.0",
+  "sensor_type":"humidity",
+  "value":"100.00"
 }
 ```
 
@@ -402,9 +402,9 @@ Send a `POST` request to `apis/GetCropRecommendation/`<br>
 
 ```json
 {
-"latitude":"0.0",
-"longitude":"0.0",
-"user_name":"user1",
+  "latitude":"0.0",
+  "longitude":"0.0",
+  "user_name":"user1",
 }
 ```
 
@@ -431,7 +431,7 @@ The possible responses for this api request are as follows
 
 ## `apis/GetCropRecommendationWithGivenData/`
 
-This Api is used to give a recommendation based on the existing data in the database.
+This Api is used to give a recommendation based on the given data in the request.
 
 ### How to Use?
 
@@ -443,18 +443,15 @@ Send a `POST` request to `apis/GetCropRecommendationWithGivenData/`<br>
 
 ```json
 {
-"latitude":"0.0",
-"longitude":"0.0",
-"user_name":"user1",
-"nitrogen":"0.5",
-"phosphorus":"0.5",
-"potassium":"0.5",
-"pH":"7",
-"temperature":"40",
-"humidity":"40",
-
-
-
+  "latitude":"0.0",
+  "longitude":"0.0",
+  "user_name":"user1",
+  "nitrogen":"0.5",
+  "phosphorus":"0.5",
+  "potassium":"0.5",
+  "pH":"7",
+  "temperature":"40",
+  "humidity":"40"
 }
 ```
 
@@ -465,7 +462,6 @@ Send a `POST` request to `apis/GetCropRecommendationWithGivenData/`<br>
   "message":"Crop recommended successfully",
   "full_data":1,
   "predicted_crop":"maize"
-
 }
 ```
 
