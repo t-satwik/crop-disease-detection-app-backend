@@ -225,7 +225,6 @@ Send a `POST` request to `apis/GetPastData/`<br>
 ```json
 {
   "message":"Data Fetch Successful",
-  "data_count":1,
   "data0":{
     "time_stamp":"08/04/2022 16:19:27",
     "latitude":"0.0" ,
@@ -236,6 +235,7 @@ Send a `POST` request to `apis/GetPastData/`<br>
     "crop_type":"maize",
     "file_name":"user1_maize_08-04-2022_16-19-27.png",
   }
+  "max_index":0
 
 }
 ```
