@@ -160,6 +160,7 @@ def setSensorData(request):
                 print("user 404")
                 return Response({"message":"user not found"}, status=status.HTTP_404_NOT_FOUND)
             else:
+                print("3")
                 sensor_data_obj.value = data['value']
                 sensor_data_obj.latitude = data['latitude']
                 sensor_data_obj.longitude = data['longitude']
@@ -170,6 +171,7 @@ def setSensorData(request):
                 offset=0.001
                 sensors_in_offset=Sensor.objects.filter(latitude__lte=latitude+offset, latitude__gte=latitude-offset, longitude__lte=longitude+offset, longitude__gte=longitude-offset)
                 sensors_type=Sensor.objects.filter(sensor_type=data['sensor_type'])
+                sensors_type=Sensor.objects.filter(user=user_obj[0])
                 flag=0
                 for sensor in sensors_in_offset:
                     if sensor in sensors_type:
@@ -206,7 +208,7 @@ def getPastData(request):
         user_data=Data.objects.filter(user__exact=user_name)
         print(len(user_data))
         num=3
-        Response_dict={"message":"Data Fetch Successful", "data_count":str(num)}
+        Response_dict={"message":"Data Fetch Successful"}
         # print("0")
         for i in range(int(data['starting_index']), int(data['starting_index'])+num):
             # print("1")
@@ -227,6 +229,7 @@ def getPastData(request):
             # img = open(filename, 'rb')
             # print(user_data[i].image)
             # Response_dict["data"+str(i)]["image"]=user_data[i].image
+        Response_dict["max_index"]=i
         return Response(Response_dict, status=status.HTTP_200_OK )
     except Exception:
         print(sys.exc_info())
