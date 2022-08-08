@@ -1,0 +1,13 @@
+Watching for file changes with StatReloader
+[08/Aug/2022 05:58:18] "GET / HTTP/1.1" 200 30008
+[08/Aug/2022 05:58:19] "GET /static/css/responsive.css HTTP/1.1" 200 1377
+[08/Aug/2022 05:58:19] "GET /static/css/style.css HTTP/1.1" 200 17614
+[08/Aug/2022 05:58:19] "GET /static/js/jquery-3.4.1.min.js HTTP/1.1" 200 88144
+[08/Aug/2022 05:58:19] "GET /static/js/bootstrap.js HTTP/1.1" 200 136745
+[08/Aug/2022 05:58:19] "GET /static/css/bootstrap.css HTTP/1.1" 200 192348
+[08/Aug/2022 05:58:19] "GET /static/css/font-awesome.min.css HTTP/1.1" 200 31000
+[08/Aug/2022 05:58:19] "GET /static/js/custom.jss HTTP/1.1" 404 1798
+[08/Aug/2022 05:58:24] "GET /static/images/favicon.png HTTP/1.1" 200 21154
+[08/Aug/2022 05:58:24] "GET /static/images/slider-img.png HTTP/1.1" 200 126864
+[08/Aug/2022 05:58:24] "GET / HTTP/1.1" 200 30008
+[08/Aug/2022 05:58:24] "GET /static/js/custom.jss HTTP/1.1" 404 1798
